@@ -1,0 +1,1 @@
+pyinstaller sri.py
