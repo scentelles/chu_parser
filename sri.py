@@ -7,6 +7,10 @@ print(fitz.__doc__)
 
 import sys
 
+
+DEBUG = False
+
+
 fileName = r''
 fileName += sys.argv[1]
 print(fileName)
@@ -159,7 +163,9 @@ for page in doc:
 							resultList.append(tempLine + "\n")
 						newLine = 1
 						#tempLine = str(count) + "\t|" + mytext + "(" + str(colNb) + ")"
-						tempLine = mytext + "(" + str(colNb) + ")"
+						tempLine = mytext 
+						if (DEBUG == True):
+							tempLine + "(" + str(colNb) + ")"
 						count += 1 
 					else:
 						if(((currentY - previousY) < 3) ):
@@ -168,8 +174,9 @@ for page in doc:
 								tempLine += "\t"
 							#print ("\t\tnew column" + "(" + str(colNb) + ")")
 							currentColumn += deltaColumn
-						tempLine += mytext + "(" + str(colNb) + ")" 
-						
+						tempLine += mytext 
+						if (DEBUG == True):
+							tempLine + "(" + str(colNb) + ")"						
 						newLine = 0
 
 print("\n==========================\n==========================\n===============")
