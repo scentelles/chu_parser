@@ -13,30 +13,12 @@ print(fileName)
 
 fileName=fileName.replace("\\","\\\\")
 
+configFile = "config.txt"
 
+with open("config.txt") as json_file:
+    data = json.load(json_file)
 
-listToSearch = [
-				 'atinine',
-				 'LDH',
-				 'Lactate',
-				 'Troponine',
-				 'NT-PROBNP',
-				 'D Dim',
-				 'PLAQUETTES',
-				 'Lymphocytes',
-				 'Leucocytes',
-				 'Ferritine',				
-				 'CRP',
-				 'TGO',
-				 'TGP',
-				 'Bilirubine',
-				 'pO2',
-				 'pCO2',
-				 'pH (T)',
-				 'Sodium'
-				
-
-]
+listToSearch = data['sri_search_list']
 
 
 doc = fitz.open(fileName) 
@@ -225,7 +207,7 @@ for item in listToSearch:
 			file1.write(line.encode('mbcs'))
 			itemFound = True
 	if itemFound == False:
-		file1.write(item + emptyLine )
+		file1.write(item.encode('mbcs') + emptyLine )
 file1.close()
 fileDebug.close
 
