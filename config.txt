@@ -1,0 +1,22 @@
+{
+  "sri_search_list": [
+				 "Créatinine",
+				 "LDH",
+				 "Lactate",
+				 "Troponine",
+				 "NT-PROBNP",
+				 "D Dimères",
+				 "PLAQUETTES",
+				 "Lymphocytes",
+				 "Leucocytes",
+				 "Ferritine",				
+				 "CRP",
+				 "TGO",
+				 "TGP",
+				 "Bilirubine",
+				 "pO2",
+				 "pCO2",
+				 "pH (T)",
+				 "Sodium"
+  ]
+}
