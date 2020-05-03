@@ -94,6 +94,10 @@ def isPartOfList(line):
 
 	
 	
+#TODO  : ask for specific date
+#my_date = raw_input('Date :')	
+#print("looking for " + my_date)
+	
 #===============================================================================
 #                       Parse SRI specific format exported as XPS
 #===============================================================================
@@ -105,8 +109,11 @@ resultList = []
 
 fileDebug = open("debug.json","w")
 
+nbPage = 0
+listOfDates = []
+listOfTimes = []
 for page in doc:
- 
+	nbPage +=1
 	text = page.getText("json")
 	fileDebug.write(text)
 	parsed_json = json.loads(text)
@@ -122,13 +129,31 @@ for page in doc:
 		if  lineList is not None:
 			for myline in lineList:
 				spanList = myline.get('spans')
+				
 				for myspan in spanList:
+				    
 					mytext = myspan.get('text')
-					#print(mytext.encode('utf-8'))
+
+					#print(mytext.encode('mbcs'))
 					
 					previousPosition = myPosition
 					myPosition = myspan.get('bbox')
+	
 					
+					
+					x = re.search("\d\d\/\d\d\/\d\d\d\d\s$", mytext)
+					if x is not None:
+						#print("#" + x.string + "#")
+						if(nbPage == 1):
+							listOfDates.append(x.string) 
+					
+					x = re.search("\d\d\:\d\d$", mytext)
+					if x is not None:
+						#print("#" + x.string + "#")
+						if(nbPage == 1):
+							listOfTimes.append(x.string) 		
+						
+				
 					if(previousPosition == 0):
 						previousPosition = myPosition
 					
@@ -144,7 +169,7 @@ for page in doc:
 					colNb = getColumnFromX(currentX, tempLine)
 					if(currentX < previousX):
 						#print("/////////////////////////")
-						#print(tempLine.encode('utf-8'))
+						#print(tempLine.encode('mbcs'))
 						currentColumn = 1
 						if(isPartOfList(tempLine)):
 							textToPrint += tempLine
@@ -169,6 +194,7 @@ print("\n==========================\n==========================\n===============
 	
 #print (textToPrint)
 
+
 #===============================================================================
 #                             Write result to file
 #===============================================================================
@@ -176,13 +202,27 @@ print("\n==========================\n==========================\n===============
 fileWrite = "output.xls"
 file1 = open(fileWrite,"w") 
 emptyLine = "\t/\t/\t/\t/\n"
+
+#Build first line with proper dates
+first_line = "\t"
+for this_date in listOfDates:
+	first_line += "\t" + this_date
+first_line +="\n"
+
+second_line = "\t"
+for this_time in listOfTimes:
+	second_line += "\t" + this_time
+second_line +="\n"
+
+file1.write(first_line)
+file1.write(second_line)
 for item in listToSearch:
 	itemFound = False
 	for line in resultList:
 		if item in line:
 			#print ("\n!!!!!!!!!!!!!!!!!!\nitem : " + item)
-			#print (line.encode('utf-8'))
-			file1.write(line.encode('utf-8'))
+			#print (line.encode('mbcs'))
+			file1.write(line.encode('mbcs'))
 			itemFound = True
 	if itemFound == False:
 		file1.write(item + emptyLine )
